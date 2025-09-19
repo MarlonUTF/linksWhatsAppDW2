@@ -5,6 +5,7 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import Gerador from "./GeradorLink/Gerador";
 import Agenda from "./Agenda/Agenda";
+import { BsChatLeftTextFill, BsJournalText } from "react-icons/bs";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -48,11 +49,21 @@ export default function Main() {
         <Tabs
           value={value}
           onChange={handleChange}
-          aria-label="basic tabs example"
+          aria-label="abas do sistema"
           centered
         >
-          <Tab label="Gerador de Links" {...a11yProps(0)} />
-          <Tab label="Agenda de Contatos" {...a11yProps(1)} />
+          <Tab
+            icon={<BsChatLeftTextFill />}
+            iconPosition="start"
+            label="Gerador de Links"
+            {...a11yProps(0)}
+          />
+          <Tab
+            icon={<BsJournalText />}
+            iconPosition="start"
+            label="Agenda de Contatos"
+            {...a11yProps(1)}
+          />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
