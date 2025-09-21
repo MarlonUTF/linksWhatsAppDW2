@@ -1,77 +1,45 @@
-import * as React from "react";
-import PropTypes from "prop-types";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Box from "@mui/material/Box";
-import Gerador from "./GeradorLink/Gerador";
-import Agenda from "./Agenda/Agenda";
-import { BsChatLeftTextFill, BsJournalText } from "react-icons/bs";
+import { useState } from 'react';
+import { Box, Tabs, Tab } from '@mui/material';
+import { BsChatLeftTextFill, BsJournalText } from 'react-icons/bs';
+import Gerador from './GeradorLink/Gerador';
+import Agenda from './Agenda/Agenda';
 
-function CustomTabPanel(props) {
-  const { children, value, index, ...other } = props;
-
+function TabPanel({ children, value, index }) {
   return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+    <div hidden={value !== index}>
+      {value === index && <Box sx={{ py: 3 }}>{children}</Box>}
     </div>
   );
 }
 
-CustomTabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
-};
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
-
 export default function Main() {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="abas do sistema"
-          centered
-        >
-          <Tab
-            icon={<BsChatLeftTextFill />}
-            iconPosition="start"
-            label="Gerador de Links"
-            {...a11yProps(0)}
-          />
-          <Tab
-            icon={<BsJournalText />}
-            iconPosition="start"
-            label="Agenda de Contatos"
-            {...a11yProps(1)}
-          />
-        </Tabs>
-      </Box>
-      <CustomTabPanel value={value} index={0}>
+    <Box>
+      <Tabs value={value} onChange={handleChange} centered>
+        <Tab
+          icon={<BsChatLeftTextFill />}
+          iconPosition="start"
+          label="Gerador de Links"
+        />
+        <Tab
+          icon={<BsJournalText />}
+          iconPosition="start"
+          label="Agenda de Contatos"
+        />
+      </Tabs>
+
+      <TabPanel value={value} index={0}>
         <Gerador />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
+      </TabPanel>
+      <TabPanel value={value} index={1}>
         <Agenda />
-      </CustomTabPanel>
+      </TabPanel>
     </Box>
   );
 }
