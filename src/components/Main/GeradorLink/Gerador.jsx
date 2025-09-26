@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Button,
   TextField,
@@ -10,15 +9,6 @@ import {
 import { ContentCopy, WhatsApp, Check } from "@mui/icons-material";
 
 export default function Gerador() {
-  const [numero, setNumero] = useState("(44) 91234-1234");
-  const [mensagem, setMensagem] = useState("");
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(`https://wa.me/5544912341234`);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
 
   return (
     <Box className="max-w-2xl mx-auto p-6">
@@ -33,8 +23,6 @@ export default function Gerador() {
         <TextField
           fullWidth
           variant="outlined"
-          value={numero}
-          onChange={(e) => setNumero(e.target.value)}
           sx={{ mb: 3 }}
           InputProps={{
             sx: { borderRadius: 2 },
@@ -53,8 +41,6 @@ export default function Gerador() {
           multiline
           rows={3}
           placeholder="Digite sua mensagem aqui..."
-          value={mensagem}
-          onChange={(e) => setMensagem(e.target.value)}
           InputProps={{
             sx: { borderRadius: 2 },
           }}
@@ -91,7 +77,6 @@ export default function Gerador() {
             https://wa.me/5544912341234
           </Typography>
           <IconButton
-            onClick={handleCopy}
             className="bg-white hover:bg-gray-50"
           >
             {copied ? <Check className="text-green-500" /> : <ContentCopy />}
