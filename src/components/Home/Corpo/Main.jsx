@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { Box, Tabs, Tab, Paper } from '@mui/material';
-import { BsChatLeftTextFill, BsJournalText } from 'react-icons/bs';
-import Gerador from './GeradorLink/Gerador';
-import Agenda from './Agenda/Agenda';
+import { useState } from "react";
+import { Box, Tabs, Tab, Paper } from "@mui/material";
+import { BsChatLeftTextFill, BsJournalText } from "react-icons/bs";
+import Gerador from "./GeradorLink/Gerador";
+import Agenda from "../Agenda/Agenda";
 
 function TabPanel({ children, value, index }) {
   return (
@@ -20,25 +20,25 @@ export default function Main() {
   };
 
   return (
-    <Paper elevation={3} sx={{ borderRadius: 3, overflow: 'hidden' }}>
-      <Tabs 
-        value={value} 
-        onChange={handleChange} 
+    <Paper elevation={3} sx={{ borderRadius: 3, overflow: "hidden" }}>
+      <Tabs
+        value={value}
+        onChange={handleChange}
         centered
         sx={{
-          backgroundColor: 'white',
-          '& .MuiTab-root': {
-            fontSize: '1rem',
+          backgroundColor: "white",
+          "& .MuiTab-root": {
+            fontSize: "1rem",
             fontWeight: 600,
             py: 2,
             minHeight: 64,
           },
-          '& .Mui-selected': {
-            color: '#10b981 !important',
+          "& .Mui-selected": {
+            color: "#10b981 !important",
           },
-          '& .MuiTabs-indicator': {
-            backgroundColor: '#10b981',
-          }
+          "& .MuiTabs-indicator": {
+            backgroundColor: "#10b981",
+          },
         }}
       >
         <Tab
@@ -53,7 +53,7 @@ export default function Main() {
         />
       </Tabs>
 
-      <Box sx={{ backgroundColor: '#f8fafc', minHeight: 400 }}>
+      <Box sx={{ backgroundColor: "#f8fafc", minHeight: 400 }}>
         <TabPanel value={value} index={0}>
           <Gerador />
         </TabPanel>

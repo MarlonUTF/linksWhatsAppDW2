@@ -1,14 +1,13 @@
-import Header from "./components/Header/Header";
-import Main from "./components/Main/Main";
+import { Routes, Route } from "react-router-dom";
+import Home from "./components/Home/Home";
+import Login from "./components/Login/Login";
 
 function App() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
-      <div className="max-w-4xl mx-auto">
-        <Header />
-        <Main />
-      </div>
-    </div>
+    <Routes>
+      <Route path="/linksWhatsAppDW2/" element={<Home />} />
+      <Route path="/linksWhatsAppDW2/Login" element={<Login />} />
+    </Routes>
   );
 }
 
