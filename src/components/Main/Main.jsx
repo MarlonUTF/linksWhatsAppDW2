@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Tabs, Tab } from '@mui/material';
+import { Box, Tabs, Tab, Paper } from '@mui/material';
 import { BsChatLeftTextFill, BsJournalText } from 'react-icons/bs';
 import Gerador from './GeradorLink/Gerador';
 import Agenda from './Agenda/Agenda';
@@ -20,26 +20,47 @@ export default function Main() {
   };
 
   return (
-    <Box>
-      <Tabs value={value} onChange={handleChange} centered>
+    <Paper elevation={3} sx={{ borderRadius: 3, overflow: 'hidden' }}>
+      <Tabs 
+        value={value} 
+        onChange={handleChange} 
+        centered
+        sx={{
+          backgroundColor: 'white',
+          '& .MuiTab-root': {
+            fontSize: '1rem',
+            fontWeight: 600,
+            py: 2,
+            minHeight: 64,
+          },
+          '& .Mui-selected': {
+            color: '#10b981 !important',
+          },
+          '& .MuiTabs-indicator': {
+            backgroundColor: '#10b981',
+          }
+        }}
+      >
         <Tab
-          icon={<BsChatLeftTextFill />}
+          icon={<BsChatLeftTextFill className="text-lg" />}
           iconPosition="start"
           label="Gerador de Links"
         />
         <Tab
-          icon={<BsJournalText />}
+          icon={<BsJournalText className="text-lg" />}
           iconPosition="start"
           label="Agenda de Contatos"
         />
       </Tabs>
 
-      <TabPanel value={value} index={0}>
-        <Gerador />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <Agenda />
-      </TabPanel>
-    </Box>
+      <Box sx={{ backgroundColor: '#f8fafc', minHeight: 400 }}>
+        <TabPanel value={value} index={0}>
+          <Gerador />
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <Agenda />
+        </TabPanel>
+      </Box>
+    </Paper>
   );
 }
