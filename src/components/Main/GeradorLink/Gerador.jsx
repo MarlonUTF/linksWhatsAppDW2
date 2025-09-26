@@ -79,7 +79,7 @@ export default function Gerador() {
           <IconButton
             className="bg-white hover:bg-gray-50"
           >
-            {copied ? <Check className="text-green-500" /> : <ContentCopy />}
+            {/* {copied ? <Check className="text-green-500" /> : <ContentCopy />} */}
           </IconButton>
         </Box>
 
