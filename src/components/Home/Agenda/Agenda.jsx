@@ -23,9 +23,6 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 export const supabase = createClient(supabaseUrl, supabaseKey)
 
 export default function Agenda() {
-  const contatos = [
-    { nome: "Joao", numero: "(44) 91234-1234" }
-  ];
 
   // Listar contatos do usuário logado
   async function listarContato() {
@@ -169,8 +166,8 @@ export default function Agenda() {
             <TableBody>
               {contatos.map((contato, index) => (
                 <TableRow key={index} className="hover:bg-gray-50">
-                  <TableCell className="font-medium">{contato.nome}</TableCell>
-                  <TableCell className="text-gray-600">{contato.telefone}</TableCell>
+                  <TableCell className="font-medium">{contatos.nome}</TableCell>
+                  <TableCell className="text-gray-600">{contatos.telefone}</TableCell>
                   <TableCell>
                     <IconButton size="small" className="text-green-500">
                       <Message />
