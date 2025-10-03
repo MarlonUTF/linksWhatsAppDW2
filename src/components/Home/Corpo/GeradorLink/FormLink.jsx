@@ -1,33 +1,46 @@
-import { useState } from "react";
 import { TextField, Typography, Paper, Button } from "@mui/material";
+import { useState } from "react";
 
-export default function FormularioLink() {
+export default function FormLink({ setLinkGerado }) {
   const [telefone, setTelefone] = useState("");
   const [mensagem, setMensagem] = useState("");
 
   const aplicarMascaraTelefone = (evento) => {
-    let valor = evento.target.value.replace(/\D/g, ""); // Remove tudo que não é número
-    
-    // Limita a 11 dígitos
+    let valor = evento.target.value.replace(/\D/g, "");
     valor = valor.slice(0, 11);
-    
-    // Aplica a máscara
+
     if (valor.length <= 10) {
       valor = valor.replace(/(\d{2})(\d{4})(\d{0,4})/, "($1) $2-$3");
     } else {
       valor = valor.replace(/(\d{2})(\d{5})(\d{0,4})/, "($1) $2-$3");
     }
-    
+
     setTelefone(valor);
   };
 
+  function prepararMensagem() {
+    if (!telefone) {
+      alert("Por favor, insira um número de telefone.");
+      return;
+    }
+
+    const numeroLimpo = telefone.replace(/\D/g, "");
+    if (numeroLimpo.length < 10) {
+      alert("Número de telefone inválido.");
+      return;
+    }
+
+    const mensagemCodificada = encodeURIComponent(mensagem);
+    const link = `https://wa.me/55${numeroLimpo}${
+      mensagem ? `?text=${mensagemCodificada}` : ""
+    }`;
+
+    setLinkGerado(link); // atualiza no pai
+  }
+
   return (
     <Paper elevation={2} sx={{ p: 4, mb: 4, borderRadius: 2 }}>
-      <Typography
-        variant="h6"
-        gutterBottom
-        className="font-semibold text-gray-700"
-      >
+      <Typography variant="h6" gutterBottom>
         Número do WhatsApp
       </Typography>
       <TextField
@@ -37,16 +50,9 @@ export default function FormularioLink() {
         onChange={aplicarMascaraTelefone}
         placeholder="(00) 00000-0000"
         sx={{ mb: 3 }}
-        InputProps={{
-          sx: { borderRadius: 2 },
-        }}
       />
-      
-      <Typography
-        variant="h6"
-        gutterBottom
-        className="font-semibold text-gray-700"
-      >
+
+      <Typography variant="h6" gutterBottom>
         Mensagem (opcional)
       </Typography>
       <TextField
@@ -57,12 +63,10 @@ export default function FormularioLink() {
         value={mensagem}
         onChange={(evento) => setMensagem(evento.target.value)}
         placeholder="Digite sua mensagem aqui..."
-        InputProps={{
-          sx: { borderRadius: 2 },
-        }}
       />
-      
+
       <Button
+        onClick={prepararMensagem}
         variant="contained"
         size="large"
         fullWidth
@@ -71,9 +75,7 @@ export default function FormularioLink() {
           py: 1.5,
           borderRadius: 2,
           backgroundColor: "#10b981",
-          "&:hover": {
-            backgroundColor: "#059669",
-          },
+          "&:hover": { backgroundColor: "#059669" },
         }}
       >
         Preparar Mensagem

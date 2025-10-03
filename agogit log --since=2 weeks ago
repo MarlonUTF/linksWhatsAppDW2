@@ -1,0 +1,137 @@
+[33mcommit 037b99ee872565ac4ca13fbc95e7198183cbc944[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Merge: 8bc63f4 fd8aa70
+Author: talissonsidnei <158642399+MarlonUTF@users.noreply.github.com>
+Date:   Mon Sep 29 10:07:39 2025 -0300
+
+    Merge branch 'main' of https://github.com/MarlonUTF/linksWhatsAppDW2
+
+[33mcommit 8bc63f4d11a08446d26f94fade835b63b1e62a24[m
+Author: talissonsidnei <158642399+MarlonUTF@users.noreply.github.com>
+Date:   Mon Sep 29 10:04:28 2025 -0300
+
+    Refactor FormLink and add phone mask logic
+    
+    Renamed FormLink to FormularioLink and implemented phone number masking and state management for phone and message fields. Also removed unnecessary imports from main.jsx for code cleanup.
+
+[33mcommit fd8aa702e6f44c7fab10ec7339523c404cdfb37c[m
+Author: alduin10 <ryantomaztalavieira@gmail.com>
+Date:   Mon Sep 29 09:59:44 2025 -0300
+
+    save
+
+[33mcommit c921494e7f4c3d5b8f496f03ea45eb20856f012f[m
+Author: talissonsidnei <158642399+MarlonUTF@users.noreply.github.com>
+Date:   Mon Sep 29 09:15:00 2025 -0300
+
+    Refactor Agenda into FormContato and ListaContato components
+    
+    Split the Agenda component into two separate components: FormContato for the contact form and ListaContato for displaying the contact list. This improves code organization and separation of concerns.
+
+[33mcommit ba2e855cf09b35b6780f1d306b1a2fa8714bb04a[m
+Author: talissonsidnei <158642399+MarlonUTF@users.noreply.github.com>
+Date:   Mon Sep 29 09:01:37 2025 -0300
+
+    Refactor GeradorLink and Agenda components structure
+    
+    Split GeradorLink logic into FormLink and LinkGerado components for better separation of concerns. Moved Agenda component to Corpo/Agenda directory and updated imports in Main.jsx to reflect new structure.
+
+[33mcommit 1eed94719fae15c38aa9d5e75661a570ea767ed6[m
+Merge: 1895f55 82e7527
+Author: talissonsidnei <158642399+MarlonUTF@users.noreply.github.com>
+Date:   Fri Sep 26 11:49:08 2025 -0300
+
+    Merge branch 'main' of https://github.com/MarlonUTF/linksWhatsAppDW2
+
+[33mcommit 1895f55f1078cc7c53b89409e1fdba095cacfa1f[m
+Author: talissonsidnei <158642399+MarlonUTF@users.noreply.github.com>
+Date:   Fri Sep 26 11:49:05 2025 -0300
+
+    Add routing and restructure component folders
+    
+    Introduced react-router-dom for client-side routing, added Login and Home pages, and updated App.jsx to use Routes. Refactored component folder structure for better organization, moving Main, Header, Agenda, and GeradorLink components under Home. Updated main.jsx to wrap App in BrowserRouter.
+
+[33mcommit 82e7527c0d0fedb1d6034946d06dcc1e9695741c[m
+Merge: eaeb61d 46dd48f
+Author: alduin10 <ryantomaztalavieira@gmail.com>
+Date:   Fri Sep 26 11:10:25 2025 -0300
+
+    Merge branch 'main' of https://github.com/MarlonUTF/linksWhatsAppDW2
+
+[33mcommit eaeb61ded291231a8eda1fe11d36060f01ab7ead[m
+Author: alduin10 <ryantomaztalavieira@gmail.com>
+Date:   Fri Sep 26 11:10:11 2025 -0300
+
+    Save
+
+[33mcommit 46dd48f54f18d054b21938b16afdbaa99f2c58aa[m
+Author: talissonsidnei <158642399+MarlonUTF@users.noreply.github.com>
+Date:   Fri Sep 26 11:06:01 2025 -0300
+
+    Comment out copy icon logic in Gerador component
+    
+    The conditional rendering of the copy icon in the IconButton has been commented out, possibly for debugging or UI adjustment purposes.
+
+[33mcommit c8a3b93b1743d1da9e62031c3306a82909c3a95b[m
+Author: talissonsidnei <158642399+MarlonUTF@users.noreply.github.com>
+Date:   Fri Sep 26 10:58:10 2025 -0300
+
+    Remove unused state and handlers from Gerador component
+    
+    Eliminated local state variables and the copy handler from Gerador.jsx, along with related props and logic, as they are no longer used in the component.
+
+[33mcommit 126fd8857d4103a81fd7c6e844146a57fb6d8a3e[m
+Author: talissonsidnei <158642399+MarlonUTF@users.noreply.github.com>
+Date:   Fri Sep 26 10:42:59 2025 -0300
+
+    refatoração
+
+[33mcommit 36d5fca03e6a17b3929a57e5db9164b7f098ece9[m
+Author: talissonsidnei <158642399+MarlonUTF@users.noreply.github.com>
+Date:   Sun Sep 21 11:19:08 2025 -0300
+
+    Add MUI icons and update dependencies
+    
+    Added @mui/icons-material to dependencies and updated several dev dependencies including eslint and rollup. Also made minor changes to Header.jsx, Main.jsx, and vite.config.js to support new packages and configuration.
+
+[33mcommit a6cf17fade29f72d50440e16c466566136a83946[m
+Merge: 492736e abdfcb0
+Author: talissonsidnei <158642399+MarlonUTF@users.noreply.github.com>
+Date:   Fri Sep 19 12:01:36 2025 -0300
+
+    Merge branch 'main' of https://github.com/MarlonUTF/linksWhatsAppDW2
+
+[33mcommit 492736ef78fd0cdb53ee82a3dd07b7e946a31deb[m
+Author: talissonsidnei <158642399+MarlonUTF@users.noreply.github.com>
+Date:   Fri Sep 19 12:01:24 2025 -0300
+
+    Add react-icons and update Main tabs with icons
+    
+    Installed react-icons package and updated Main.jsx to display icons in the tab labels for 'Gerador de Links' and 'Agenda de Contatos'. Improves UI clarity and visual appeal.
+
+[33mcommit abdfcb0c37a491469d70fecf20f81051de4b7184[m
+Author: alduin10 <ryantomaztalavieira@gmail.com>
+Date:   Fri Sep 19 11:54:11 2025 -0300
+
+    save
+
+[33mcommit 630a3fcf12388b60b3cad741df85b9115a6f913d[m
+Author: talissonsidnei <158642399+MarlonUTF@users.noreply.github.com>
+Date:   Fri Sep 19 11:39:08 2025 -0300
+
+    Add header, main layout, and tab navigation
+    
+    Introduces Header and Main components, with tab navigation for 'Gerador de Links' and 'Agenda de Contatos'. Updates App.jsx to use new layout and adds custom color variable to index.css for theme support.
+
+[33mcommit 9192ae7d6b212fb9be4cc8bcecdfd999d7df961e[m
+Author: talissonsidnei <158642399+MarlonUTF@users.noreply.github.com>
+Date:   Fri Sep 19 10:14:48 2025 -0300
+
+    Initialize React Vite project with ESLint and MUI
+    
+    Set up a new React project using Vite, including configuration files for ESLint and Vite, initial dependencies (MUI, Tailwind, Emotion), and starter files for the app. Updated README with setup and usage instructions.
+
+[33mcommit 3c32815bc16745353dcc5b9f1d5e21c201f292af[m
+Author: marlon_utf <158642399+MarlonUTF@users.noreply.github.com>
+Date:   Mon Sep 15 08:38:34 2025 -0300
+
+    Initial commit
