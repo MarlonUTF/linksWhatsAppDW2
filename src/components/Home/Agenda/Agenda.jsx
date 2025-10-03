@@ -14,8 +14,6 @@ import {
 } from "@mui/material";
 import { Edit, Delete, Message } from "@mui/icons-material";
 import { useEffect, useState } from "react";
-import {Agenda}
-
 import { createClient } from '@supabase/supabase-js'
 
 const supabaseUrl = 'https://postgresql://postgres:[YOUR-PASSWORD]@db.pxahbijwhfmuwxcpicih.supabase.co:5432/postgres.supabase.co'
@@ -24,7 +22,24 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 export const supabase = createClient(supabaseUrl, supabaseKey)
 
 export default function Agenda() {
+ // Listar contatos do usuário logado
+  async function listarContato() {
+    const { data: contatos, error } = await supabase
+      .from('contacts')
+      .select('*')
+      .order('created_at', { ascending: false })
 
+    if (error) {
+      console.error('Erro ao listar contatos:', error.message)
+      return []
+    }
+
+    return contatos // array de objetos
+  }
+
+  useEffect(() => {
+    listarContato();
+  }, []);
 
   // // Criar contato
   // async function criarContato(contactId) {
