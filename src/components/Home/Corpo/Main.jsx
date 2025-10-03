@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Box, Tabs, Tab, Paper } from "@mui/material";
 import { BsChatLeftTextFill, BsJournalText } from "react-icons/bs";
 import Gerador from "./GeradorLink/Gerador";
-import Agenda from "./Agenda/Agenda";
+import Agenda from "../Agenda/Agenda";
 
 function TabPanel({ children, value, index }) {
   return (

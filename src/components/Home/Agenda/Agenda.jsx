@@ -16,29 +16,31 @@ import { Edit, Delete, Message } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = 'https://postgresql://postgres:[YOUR-PASSWORD]@db.pxahbijwhfmuwxcpicih.supabase.co:5432/postgres.supabase.co'
+const supabaseUrl = 'https://pxahbijwhfmuwxcpicih.supabase.co'
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB4YWhiaWp3aGZtdXd4Y3BpY2loIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg4OTUyNjYsImV4cCI6MjA3NDQ3MTI2Nn0.MyJouLnH8fnW5PDsiKXTK_HYhsHcyD0qzMCXf3kMQ0w'
 
 export const supabase = createClient(supabaseUrl, supabaseKey)
 
+
 export default function Agenda() {
- // Listar contatos do usuário logado
-  async function listarContato() {
-    const { data: contatos, error } = await supabase
-      .from('contacts')
+  const [contatos, setContatos] = useState([])
+  // Listar contatos do usuário logado
+  async function listarContatos() {
+    const { data, error } = await supabase
+      .from('contatos')
       .select('*')
       .order('created_at', { ascending: false })
 
     if (error) {
       console.error('Erro ao listar contatos:', error.message)
-      return []
+      return
     }
 
-    return contatos // array de objetos
+    setContatos(data)
   }
 
   useEffect(() => {
-    listarContato();
+    listarContatos();
   }, []);
 
   // // Criar contato
@@ -103,7 +105,7 @@ export default function Agenda() {
   //   return true
   // }
 
-  
+
 
   return (
 
@@ -166,8 +168,8 @@ export default function Agenda() {
             <TableBody>
               {contatos.map((contato, index) => (
                 <TableRow key={index} className="hover:bg-gray-50">
-                  <TableCell className="font-medium">{contatos.nome}</TableCell>
-                  <TableCell className="text-gray-600">{contatos.telefone}</TableCell>
+                  <TableCell className="font-medium">{contato.nome}</TableCell>
+                  <TableCell className="text-gray-600">{contato.telefone}</TableCell>
                   <TableCell>
                     <IconButton size="small" className="text-green-500">
                       <Message />
