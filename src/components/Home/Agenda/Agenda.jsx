@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import { Edit, Delete, Message } from "@mui/icons-material";
 import { useEffect, useState } from "react";
+import {Agenda}
 
 import { createClient } from '@supabase/supabase-js'
 
@@ -24,20 +25,6 @@ export const supabase = createClient(supabaseUrl, supabaseKey)
 
 export default function Agenda() {
 
-  // Listar contatos do usuário logado
-  async function listarContato() {
-    const { data: contatos, error } = await supabase
-      .from('contacts')
-      .select('*')
-      .order('created_at', { ascending: false })
-
-    if (error) {
-      console.error('Erro ao listar contatos:', error.message)
-      return []
-    }
-
-    return contatos // array de objetos
-  }
 
   // // Criar contato
   // async function criarContato(contactId) {
@@ -101,9 +88,7 @@ export default function Agenda() {
   //   return true
   // }
 
-  useEffect(() => {
-    listarContato();
-  }, []);
+  
 
   return (
 
