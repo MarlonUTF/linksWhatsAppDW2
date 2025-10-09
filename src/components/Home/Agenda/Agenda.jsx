@@ -65,7 +65,7 @@ export default function Agenda({ setValue, setTelefone }) {
 
   function contatoExiste(nome, numero) {
     return contatos.some(
-      (contato) => contato.name === nome && contato.phone === numero
+      (contato) =>  contato.phone === numero
     )
   }
 
@@ -74,7 +74,7 @@ export default function Agenda({ setValue, setTelefone }) {
       console.log("contato já existente")
       Swal.fire({
         title: 'Contato já existente',
-        text: 'Digite outro nome ou número',
+        text: 'Digite outro número',
         icon: 'error',
         color: '#000000ff',
         confirmButtonColor: '#0ce700ff',
