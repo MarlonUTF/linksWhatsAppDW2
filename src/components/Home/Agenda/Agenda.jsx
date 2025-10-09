@@ -47,10 +47,10 @@ export default function Agenda() {
 
   function contatoExiste(nome, numero) {
     return contatos.some(
-      (contato) => contato.nome === nome && contato.telefone === numero
+      (contato) => contato.name === nome && contato.phone === numero
     )
   }
-  // Criar contato
+
   async function criarContato(nome, numero) {
     if (contatoExiste(nome, numero)) { console.log("contato já existente") } else {
       const { error: insertError } = await supabase
@@ -63,7 +63,7 @@ export default function Agenda() {
         ])
 
       if (insertError) {
-        console.error('Erro ao criar contatos:', error.message)
+        console.error('Erro ao criar contatos:', insertError.message)
         return
       }
 
