@@ -1,9 +1,13 @@
 import { TextField, Typography, Paper, Button } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function FormLink({ setLinkGerado }) {
-  const [telefone, setTelefone] = useState("");
+export default function FormLink({ setLinkGerado, telefone }) {
+  const [telefoneInput, setTelefoneInput] = useState("");
   const [mensagem, setMensagem] = useState("");
+
+  useEffect(() => {
+    setTelefoneInput(telefone || "");
+  }, [telefone]);
 
   const aplicarMascaraTelefone = (evento) => {
     let valor = evento.target.value.replace(/\D/g, "");
@@ -15,16 +19,16 @@ export default function FormLink({ setLinkGerado }) {
       valor = valor.replace(/(\d{2})(\d{5})(\d{0,4})/, "($1) $2-$3");
     }
 
-    setTelefone(valor);
+    setTelefoneInput(valor);
   };
 
   function prepararMensagem() {
-    if (!telefone) {
+    if (!telefoneInput) {
       alert("Por favor, insira um número de telefone.");
       return;
     }
 
-    const numeroLimpo = telefone.replace(/\D/g, "");
+    const numeroLimpo = telefoneInput.replace(/\D/g, "");
     if (numeroLimpo.length < 10) {
       alert("Número de telefone inválido.");
       return;
@@ -46,14 +50,14 @@ export default function FormLink({ setLinkGerado }) {
       <TextField
         fullWidth
         variant="outlined"
-        value={telefone}
+        value={telefoneInput}
         onChange={aplicarMascaraTelefone}
         placeholder="(00) 00000-0000"
         sx={{ mb: 3 }}
       />
 
       <Typography variant="h6" gutterBottom>
-        Mensagem (opcional)
+        Mensagem 
       </Typography>
       <TextField
         fullWidth

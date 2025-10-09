@@ -14,6 +14,7 @@ function TabPanel({ children, value, index }) {
 
 export default function Main() {
   const [value, setValue] = useState(0);
+  const [telefone, setTelefone] = useState("");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -55,10 +56,10 @@ export default function Main() {
 
       <Box sx={{ backgroundColor: "#f8fafc", minHeight: 400 }}>
         <TabPanel value={value} index={0}>
-          <Gerador />
+          <Gerador telefone = {telefone}/>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <Agenda />
+          <Agenda setTelefone ={setTelefone} setValue ={setValue} />
         </TabPanel>
       </Box>
     </Paper>
