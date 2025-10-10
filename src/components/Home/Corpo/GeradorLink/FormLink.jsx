@@ -1,7 +1,7 @@
 import { TextField, Typography, Paper, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 
-export default function FormLink({ setLinkGerado, telefone }) {
+export default function FormLink({ setLinkGerado, telefone, nomeMensagem, estadoMensagem, value}) {
   const [telefoneInput, setTelefoneInput] = useState("");
   const [mensagem, setMensagem] = useState("");
 
@@ -14,11 +14,12 @@ export default function FormLink({ setLinkGerado, telefone }) {
     valor = valor.slice(0, 11);
 
     if (valor.length <= 10) {
-      valor = valor.replace(/(\d{2})(\d{4})(\d{0,4})/, "($1) $2$3");
+      valor = valor.replace(/(\d{2})(\d{4})(\d{0,4})/, "($1) $2 $3");
     } else {
-      valor = valor.replace(/(\d{2})(\d{5})(\d{0,4})/, "($1) $2$3");
+      valor = valor.replace(/(\d{2})(\d{1})(\d{4})(\d{0,4})/, "($1) $2 $3 $4");
     }
 
+    valor = valor.trim();
     setTelefoneInput(valor);
   };
 
@@ -42,8 +43,20 @@ export default function FormLink({ setLinkGerado, telefone }) {
     setLinkGerado(link); // atualiza no pai
   }
 
+  function limpaDados(value){
+    if(value == 0){
+      estadoMensagem = false;
+      nomeMensagem = "";
+    }
+  }
+
   return (
     <Paper elevation={2} sx={{ p: 4, mb: 4, borderRadius: 2 }}>
+       {estadoMensagem && 
+       <Typography variant="h6" gutterBottom>
+        Contato {nomeMensagem}
+      </Typography>
+      }
       <Typography variant="h6" gutterBottom>
         Número do WhatsApp
       </Typography>

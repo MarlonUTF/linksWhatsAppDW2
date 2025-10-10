@@ -15,10 +15,24 @@ function TabPanel({ children, value, index }) {
 export default function Main() {
   const [value, setValue] = useState(0);
   const [telefone, setTelefone] = useState("");
+  const [nomeMensagem, setnomeMensagem] = useState("");
+  const [estadoMensagem, setestadoMensagem] = useState(false);
+
+  function limpaDados(v){
+    if(v == 0){
+      setestadoMensagem(false);
+      setnomeMensagem("");
+      setTelefone("");
+      console.log(v + " limpou");
+    } else{console.log( v + " não limpou")}
+  }
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    limpaDados(newValue);
+
   };
+
 
   return (
     <Paper elevation={3} sx={{ borderRadius: 3, overflow: "hidden" }}>
@@ -56,10 +70,10 @@ export default function Main() {
 
       <Box sx={{ backgroundColor: "#f8fafc", minHeight: 400 }}>
         <TabPanel value={value} index={0}>
-          <Gerador telefone = {telefone}/>
+          <Gerador telefone = {telefone} nomeMensagem = {nomeMensagem} estadoMensagem = {estadoMensagem} value = {value}/>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <Agenda setTelefone ={setTelefone} setValue ={setValue} />
+          <Agenda setTelefone ={setTelefone} setValue ={setValue}  setnomeMensagem = {setnomeMensagem} setestadoMensagem = {setestadoMensagem}/>
         </TabPanel>
       </Box>
     </Paper>

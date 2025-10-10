@@ -18,12 +18,14 @@ import { createClient } from '@supabase/supabase-js';
 import Swal from 'sweetalert2';
 
 
-const supabaseUrl = 'https://pxahbijwhfmuwxcpicih.supabase.co'
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB4YWhiaWp3aGZtdXd4Y3BpY2loIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg4OTUyNjYsImV4cCI6MjA3NDQ3MTI2Nn0.MyJouLnH8fnW5PDsiKXTK_HYhsHcyD0qzMCXf3kMQ0w'
 
-const supabase = createClient(supabaseUrl, supabaseKey)
 
-export default function Agenda({ setValue, setTelefone }) {
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_ANON_KEY
+)
+
+export default function Agenda({ setValue, setTelefone, setnomeMensagem, setestadoMensagem }) {
   const [contatos, setContatos] = useState([])
   const [nome, setNome] = useState('')
   const [numero, setNumero] = useState('')
@@ -48,12 +50,13 @@ export default function Agenda({ setValue, setTelefone }) {
     valor = valor.slice(0, 11);
 
     if (valor.length <= 10) {
-      valor = valor.replace(/(\d{2})(\d{4})(\d{0,4})/, "($1) $2$3");
+      valor = valor.replace(/(\d{2})(\d{4})(\d{0,4})/, "($1) $2 $3");
     } else {
-      valor = valor.replace(/(\d{2})(\d{5})(\d{0,4})/, "($1) $2$3");
+      valor = valor.replace(/(\d{2})(\d{1})(\d{4})(\d{0,4})/, "($1) $2 $3 $4");
     }
 
-    setTelefoneInput(valor);
+    valor = valor.trim();
+    setNumero(valor); // Corrija aqui!
   };
 
 
@@ -86,7 +89,7 @@ export default function Agenda({ setValue, setTelefone }) {
     if (contatoExiste(nome, numero)) {
       console.log("contato já existente")
       Swal.fire({
-        title: 'Contato já existente',
+        title: 'Número já cadastrado',
         text: 'Digite outro número',
         icon: 'error',
         color: '#000000ff',
@@ -177,8 +180,9 @@ export default function Agenda({ setValue, setTelefone }) {
             <TextField
               label="Numero"
               variant="outlined"
-              value={numero} onChange={(e) => setNumero(e.target.value)}
-              placeholder="Número"
+              value={numero} 
+              onChange= {aplicarMascaraTelefone}
+              placeholder="(00) 0 0000 0000"
               fullWidth
               InputProps={{
                 sx: { borderRadius: 2 }
@@ -220,8 +224,9 @@ export default function Agenda({ setValue, setTelefone }) {
             <TextField
               label="Numero"
               variant="outlined"
-              value={numero} onChange={(e) => setNumero(e.target.value)}
-              placeholder="Número"
+              value = {numero}
+              onChange= {aplicarMascaraTelefone}
+              placeholder="(00) 0 0000 0000"
               fullWidth
               InputProps={{
                 sx: { borderRadius: 2 }
@@ -263,9 +268,7 @@ export default function Agenda({ setValue, setTelefone }) {
             <TableHead>
               <TableRow className="bg-gray-50">
                 <TableCell className="font-semibold">Nome</TableCell>
-                <TableCell className="font-semibold"
-                onChange={aplicarMascaraTelefone}
-                >Número</TableCell>
+                <TableCell className="font-semibold">Número</TableCell>
                 <TableCell className="font-semibold">Mensagem</TableCell>
                 <TableCell className="font-semibold">Editar</TableCell>
               </TableRow>
@@ -276,7 +279,7 @@ export default function Agenda({ setValue, setTelefone }) {
                   <TableCell className="font-medium">{contato.name}</TableCell>
                   <TableCell className="text-gray-600">{contato.phone}</TableCell>
                   <TableCell>
-                    <IconButton size="small" className="text-green-500" onClick={() => { setValue(0); setTelefone(contato.phone) }}>
+                    <IconButton size="small" className="text-green-500" onClick={() => { setValue(0); setTelefone(contato.phone); setnomeMensagem(contato.name); setestadoMensagem('true') }}>
                       <Message />
                     </IconButton>
                   </TableCell>
