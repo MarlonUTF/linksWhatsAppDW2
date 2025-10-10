@@ -32,6 +32,8 @@ export default function Agenda({ setValue, setTelefone, setnomeMensagem, setesta
   const [editar, setEditar] = useState(false)
   const [salvar, setSalvar] = useState(true)
   const [idContato, setidContato] = useState('')
+  const [pesqNumero, setpesqNumero] = useState('')
+  const [idPesqNumero, setidPesqNumero] = useState('')
   const Toast = Swal.mixin({
     toast: true,
     position: "top-end",
@@ -57,6 +59,19 @@ export default function Agenda({ setValue, setTelefone, setnomeMensagem, setesta
 
     valor = valor.trim();
     setNumero(valor); // Corrija aqui!
+  };
+   const aplicarMascaraTelefonePesq = (evento) => {
+    let valor = evento.target.value.replace(/\D/g, "");
+    valor = valor.slice(0, 11);
+
+    if (valor.length <= 10) {
+      valor = valor.replace(/(\d{2})(\d{4})(\d{0,4})/, "($1) $2 $3");
+    } else {
+      valor = valor.replace(/(\d{2})(\d{1})(\d{4})(\d{0,4})/, "($1) $2 $3 $4");
+    }
+
+    valor = valor.trim();
+    setpesqNumero(valor); // Corrija aqui!
   };
 
 
@@ -159,8 +174,73 @@ export default function Agenda({ setValue, setTelefone, setnomeMensagem, setesta
     return true
   }
 
+  function numeroExiste(numero) {
+    return contatos.some(
+      (contato) =>  contato.phone === numero
+    )
+  }
+
+  async function pesquisarContato(pesqNumero){
+    if (numeroExiste(pesqNumero)){
+      const { data, error } = await supabase
+      .from('contatos')
+      .select('*')
+      .eq('phone', pesqNumero)
+      setpesqNumero('')
+    if (error) {
+      console.error('Erro ao listar contatos:', error.message)
+      return
+    }
+    setContatos(data)
+
+    } else{
+      Swal.fire({
+        title: 'Número não encontrado',
+        text: 'Digite outro número',
+        icon: 'error',
+      });
+      setpesqNumero('')
+      //terminar nsdifsifudsnfhodsdfsfh
+      //ADICIONAR BOTAO PRA VOLTAR A LISTA COMPLETA
+    }
+
+  }
+
   return (
     <Box className="max-w-4xl mx-auto p-6">
+      {salvar &&(
+        <Paper elevation={2} sx={{ p: 4, mb: 4, borderRadius: 2 }}>
+          <Typography variant="h6" gutterBottom className="font-semibold text-gray-700">
+            Pesquisar Contato
+          </Typography>
+          <Box className="flex gap-4 mb-4">
+            <TextField
+              label="Numero"
+              variant="outlined"
+              value={pesqNumero} 
+              onChange= {aplicarMascaraTelefonePesq}
+              placeholder="(00) 0 0000 0000"
+              fullWidth
+              InputProps={{
+                sx: { borderRadius: 2 }
+              }}
+            />
+          </Box>
+          <Button
+            variant="contained"
+            sx={{
+              borderRadius: 2,
+              backgroundColor: '#3b82f6',
+              '&:hover': {
+                backgroundColor: '#2563eb',
+              }
+            }}
+            onClick={() => pesquisarContato(pesqNumero)}
+          >
+            Pesquisar
+          </Button>
+        </Paper>
+      )}
       {salvar && (
         <Paper elevation={2} sx={{ p: 4, mb: 4, borderRadius: 2 }}>
           <Typography variant="h6" gutterBottom className="font-semibold text-gray-700">
