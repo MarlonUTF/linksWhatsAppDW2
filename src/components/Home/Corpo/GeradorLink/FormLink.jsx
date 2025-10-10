@@ -14,9 +14,9 @@ export default function FormLink({ setLinkGerado, telefone }) {
     valor = valor.slice(0, 11);
 
     if (valor.length <= 10) {
-      valor = valor.replace(/(\d{2})(\d{4})(\d{0,4})/, "($1) $2-$3");
+      valor = valor.replace(/(\d{2})(\d{4})(\d{0,4})/, "($1) $2$3");
     } else {
-      valor = valor.replace(/(\d{2})(\d{5})(\d{0,4})/, "($1) $2-$3");
+      valor = valor.replace(/(\d{2})(\d{5})(\d{0,4})/, "($1) $2$3");
     }
 
     setTelefoneInput(valor);

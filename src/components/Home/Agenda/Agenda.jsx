@@ -43,6 +43,19 @@ export default function Agenda({ setValue, setTelefone }) {
     }
   });
 
+  const aplicarMascaraTelefone = (evento) => {
+    let valor = evento.target.value.replace(/\D/g, "");
+    valor = valor.slice(0, 11);
+
+    if (valor.length <= 10) {
+      valor = valor.replace(/(\d{2})(\d{4})(\d{0,4})/, "($1) $2$3");
+    } else {
+      valor = valor.replace(/(\d{2})(\d{5})(\d{0,4})/, "($1) $2$3");
+    }
+
+    setTelefoneInput(valor);
+  };
+
 
   // Listar contatos do usuário logado
   async function listarContatos() {
@@ -250,7 +263,9 @@ export default function Agenda({ setValue, setTelefone }) {
             <TableHead>
               <TableRow className="bg-gray-50">
                 <TableCell className="font-semibold">Nome</TableCell>
-                <TableCell className="font-semibold">Número</TableCell>
+                <TableCell className="font-semibold"
+                onChange={aplicarMascaraTelefone}
+                >Número</TableCell>
                 <TableCell className="font-semibold">Mensagem</TableCell>
                 <TableCell className="font-semibold">Editar</TableCell>
               </TableRow>
