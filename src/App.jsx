@@ -5,7 +5,7 @@ import Login from "./components/Login/Login";
 function App() {
   return (
     <Routes>
-      <Route path="/linksWhatsAppDW2/" element={<Home />} />
+      <Route path="/" element={<Home />} />
       <Route path="/linksWhatsAppDW2/Login" element={<Login />} />
     </Routes>
   );
