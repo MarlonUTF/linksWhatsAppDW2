@@ -34,6 +34,8 @@ export default function Agenda({ setValue, setTelefone, setnomeMensagem, setesta
   const [idContato, setidContato] = useState('')
   const [pesqNumero, setpesqNumero] = useState('')
   const [idPesqNumero, setidPesqNumero] = useState('')
+  const [usuarioEmail, setUsuarioEmail] = useState(null);
+
   const Toast = Swal.mixin({
     toast: true,
     position: "top-end",
@@ -80,6 +82,7 @@ export default function Agenda({ setValue, setTelefone, setnomeMensagem, setesta
     const { data, error } = await supabase
       .from('contatos')
       .select('*')
+      .eq('email', usuarioEmail)
       .order('created_at', { ascending: false })
 
     if (error) {
@@ -89,10 +92,17 @@ export default function Agenda({ setValue, setTelefone, setnomeMensagem, setesta
 
     setContatos(data)
   }
+  async function fetchUser() {
+    const { data: { user }, error } = await supabase.auth.getUser();
+    if (user) setUsuarioEmail(user.email);
+  }
 
   useEffect(() => {
-    listarContatos();
+    fetchUser();
   }, []);
+  useEffect(() => {
+    if (usuarioEmail) listarContatos();
+  }, [usuarioEmail]);
 
   function contatoExiste(nome, numero) {
     return contatos.some(
@@ -117,6 +127,7 @@ export default function Agenda({ setValue, setTelefone, setnomeMensagem, setesta
           {
             name: nome,
             phone: numero,
+            email: usuarioEmail // ASSOCIA CONTATO AO USUÁRIO
           }
         ])
 
@@ -141,6 +152,7 @@ export default function Agenda({ setValue, setTelefone, setnomeMensagem, setesta
       .from('contatos')
       .delete()
       .eq('id', contactId)
+      .eq('email', usuarioEmail);
     if (error) {
       console.error('Erro ao deletar contato:', error.message)
       return false
@@ -162,6 +174,7 @@ export default function Agenda({ setValue, setTelefone, setnomeMensagem, setesta
         phone: numero,
       })
       .eq('id', contactId)
+      .eq('email', usuarioEmail);
     if (error) {
       console.error('Erro ao atualizar contato:', error.message)
       return false
@@ -186,6 +199,7 @@ export default function Agenda({ setValue, setTelefone, setnomeMensagem, setesta
         .from('contatos')
         .select('*')
         .eq('phone', pesqNumero)
+        .eq('email', usuarioEmail);
       setpesqNumero('')
       if (error) {
         console.error('Erro ao listar contatos:', error.message)
@@ -200,19 +214,17 @@ export default function Agenda({ setValue, setTelefone, setnomeMensagem, setesta
         icon: 'error',
       });
       setpesqNumero('')
-      //terminar nsdifsifudsnfhodsdfsfh
-      //ADICIONAR BOTAO PRA VOLTAR A LISTA COMPLETA
     }
   }
 
   return (
     <Box className="max-w-4xl mx-auto p-6">
       {salvar && (
-        <Paper elevation={2} sx={{ p: 1, mb: 1, borderRadius: 2, display: 'flex',  gap: 2, alignItems: 'center', justifyContent: 'center'}}>
+        <Paper elevation={2} sx={{ p: 1, mb: 1, borderRadius: 2, display: 'flex', gap: 2, alignItems: 'center', justifyContent: 'center' }}>
           <Typography variant="h6" gutterBottom className="font-semibold text-gray-700">
             Pesquisar Contato
           </Typography>
-          <Box className="flex gap-4 mb-4 "sx={{paddingTop: '1rem'}}>
+          <Box className="flex gap-4 mb-4 " sx={{ paddingTop: '1rem' }}>
             <TextField
               label="Numero"
               variant="outlined"

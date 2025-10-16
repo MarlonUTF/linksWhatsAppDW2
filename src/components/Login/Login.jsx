@@ -1,78 +1,135 @@
-import { FcGoogle } from 'react-icons/fc';
-import {
-    Paper,
-    Typography,
-    TextField,
-    Button,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Box,
-    IconButton
-} from "@mui/material";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Routes, Route } from "react-router-dom";
-import Home from '../Home/Home';
-import { Edit, Delete, Message } from "@mui/icons-material";
-import { useEffect, useState } from "react";
 import { createClient } from '@supabase/supabase-js';
-import Swal from 'sweetalert2';
+const supabase = createClient(
+    import.meta.env.VITE_SUPABASE_URL,
+    import.meta.env.VITE_SUPABASE_ANON_KEY
+)
+import { Paper, Typography, TextField, Button, Box } from "@mui/material";
+import { FcGoogle } from "react-icons/fc";
+import Swal from "sweetalert2";
 
 export default function Login() {
     const navigate = useNavigate();
-     <Routes>
-      <Route path="/linksWhatsAppDW2/" element={<Home />} />
-      <Route path="/" element={<Login />} />
-    </Routes>
+    const [email, setEmail] = useState("");
+    const [senha, setSenha] = useState("");
+
+    // Verifica se o usuário já está logado ao abrir a página
+    useEffect(() => {
+        const checkSession = async () => {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) navigate("/home");
+        };
+        checkSession();
+    }, [navigate]);
+
+    // Login com email e senha
+    const handleSignIn = async () => {
+        if (!email || !senha) {
+            Swal.fire("Erro", "Preencha todos os campos", "error");
+            return;
+        }
+
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email,
+            password: senha
+        });
+
+        if (error) {
+            Swal.fire("Erro", error.message, "error");
+        } else {
+            Swal.fire("Sucesso", "Login realizado!", "success");
+            navigate("/home");
+        }
+    };
+
+    // Login com Google
+    const handleSignInWithGoogle = async () => {
+    try {
+        const { data, error } = await supabase.auth.signInWithOAuth({
+            provider: "google",
+        });
+
+        if (error) {
+            // Caso o email já exista no Supabase (senha cadastrada)
+            if (
+                error.message.includes("already registered") ||
+                error.message.includes("user already exists")
+            ) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Email já cadastrado",
+                    text: "Este email já está registrado com outro método de login. Tente entrar com sua senha ou redefina sua senha.",
+                });
+            } else {
+                // Outros erros do Supabase
+                Swal.fire({
+                    icon: "error",
+                    title: "Erro ao entrar com Google",
+                    text: error.message,
+                });
+            }
+        } else {
+            // Sucesso: o Supabase redireciona automaticamente
+            Swal.fire({
+                icon: "success",
+                title: "Acessando com Google",
+                text: "Você será redirecionado...",
+                timer: 1500,
+                showConfirmButton: false,
+            });
+        }
+    } catch (err) {
+        Swal.fire({
+            icon: "error",
+            title: "Erro inesperado",
+            text: err.message,
+        });
+    }
+};
+
+
+    
+
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
             <Paper elevation={2} sx={{ p: 3, mb: 1, borderRadius: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
                 <Typography variant="h6" gutterBottom className="font-semibold text-gray-700 flex justify-center align-center">
                     Login
                 </Typography>
-                <Box className="flex gap-4 mb-4">
+
+                <Box className="flex flex-col gap-4 mb-4">
                     <TextField
-                        label="Nome"
+                        label="Email"
                         variant="outlined"
-                        //   value={nome} onChange={(e) => setNome(e.target.value)}
-                        placeholder="Nome do contato"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="Digite seu email"
                         fullWidth
-                        InputProps={{
-                            sx: { borderRadius: 2 }
-                        }}
+                        InputProps={{ sx: { borderRadius: 2 } }}
                     />
+
                     <TextField
                         label="Senha"
                         variant="outlined"
-                        //   value={numero}
-                        //   onChange={aplicarMascaraTelefone}
-                        placeholder="(00) 0 0000 0000"
+                        type="password"
+                        value={senha}
+                        onChange={(e) => setSenha(e.target.value)}
+                        placeholder="Digite sua senha"
                         fullWidth
-                        InputProps={{
-                            sx: { borderRadius: 2 }
-                        }}
+                        InputProps={{ sx: { borderRadius: 2 } }}
                     />
                 </Box>
 
                 <Button
                     variant="contained"
                     className="!bg-white !text-gray-800 !shadow-md !rounded-lg !py-2 !px-4 !w-full hover:!bg-gray-100 transition duration-300"
-                    onClick={() =>navigate("/linksWhatsAppDW2/")}
+                    onClick={handleSignIn}
                 >
                     Acessar
                 </Button>
-
-                <Button
-                    variant="contained"
-                    className="!bg-white !text-gray-800 !shadow-md !rounded-lg !py-2 !px-4 !w-full hover:!bg-gray-100 transition duration-300"
-                // onClick={() => criarContato(nome, numero)}
-                >
-                    Cadastrar-se
-                </Button>
-
+    
                 <Typography variant="h6" gutterBottom className="font-semibold text-gray-700 justify-center align-center flex">
                     ou
                 </Typography>
@@ -81,11 +138,19 @@ export default function Login() {
                     variant="contained"
                     startIcon={<FcGoogle />}
                     className="!bg-white !text-gray-800 !shadow-md !rounded-lg !py-2 !px-4 !w-full hover:!bg-gray-100 transition duration-300"
+                    onClick={handleSignInWithGoogle}
                 >
                     Entrar com Google
                 </Button>
-            </Paper>
 
+                <Button
+                    variant="text"
+                    className="mt-2 text-blue-500 hover:text-blue-700"
+                    onClick={() => navigate("/cadastro")}
+                >
+                    Cadastrar-se
+                </Button>
+            </Paper>
         </div>
     );
 }
