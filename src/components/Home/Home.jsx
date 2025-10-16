@@ -3,8 +3,8 @@ import Main from "./Corpo/Main";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
-      <div className="max-w-4xl mx-auto">
+    <div className=" min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4  ">
+      <div className="flex max-w-4xl mx-auto justify-center align-center ">
         <Header />
         <Main />
       </div>

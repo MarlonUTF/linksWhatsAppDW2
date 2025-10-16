@@ -60,7 +60,7 @@ export default function Agenda({ setValue, setTelefone, setnomeMensagem, setesta
     valor = valor.trim();
     setNumero(valor); // Corrija aqui!
   };
-   const aplicarMascaraTelefonePesq = (evento) => {
+  const aplicarMascaraTelefonePesq = (evento) => {
     let valor = evento.target.value.replace(/\D/g, "");
     valor = valor.slice(0, 11);
 
@@ -96,7 +96,7 @@ export default function Agenda({ setValue, setTelefone, setnomeMensagem, setesta
 
   function contatoExiste(nome, numero) {
     return contatos.some(
-      (contato) =>  contato.phone === numero
+      (contato) => contato.phone === numero
     )
   }
 
@@ -129,7 +129,7 @@ export default function Agenda({ setValue, setTelefone, setnomeMensagem, setesta
         return
       }
 
-      
+
       listarContatos() // Atualiza lista
       setNome('')
       setNumero('')
@@ -145,7 +145,7 @@ export default function Agenda({ setValue, setTelefone, setnomeMensagem, setesta
       console.error('Erro ao deletar contato:', error.message)
       return false
     }
-    
+
     Toast.fire({
       title: "Contato deletado com sucesso!",
       icon: "success",
@@ -167,33 +167,33 @@ export default function Agenda({ setValue, setTelefone, setnomeMensagem, setesta
       return false
     }
     Toast.fire({
-        icon: "success",
-        title:"Contato atualizado com sucesso!"
-      });
+      icon: "success",
+      title: "Contato atualizado com sucesso!"
+    });
     listarContatos()
     return true
   }
 
   function numeroExiste(numero) {
     return contatos.some(
-      (contato) =>  contato.phone === numero
+      (contato) => contato.phone === numero
     )
   }
 
-  async function pesquisarContato(pesqNumero){
-    if (numeroExiste(pesqNumero)){
+  async function pesquisarContato(pesqNumero) {
+    if (numeroExiste(pesqNumero)) {
       const { data, error } = await supabase
-      .from('contatos')
-      .select('*')
-      .eq('phone', pesqNumero)
+        .from('contatos')
+        .select('*')
+        .eq('phone', pesqNumero)
       setpesqNumero('')
-    if (error) {
-      console.error('Erro ao listar contatos:', error.message)
-      return
-    }
-    setContatos(data)
+      if (error) {
+        console.error('Erro ao listar contatos:', error.message)
+        return
+      }
+      setContatos(data)
 
-    } else{
+    } else {
       Swal.fire({
         title: 'Número não encontrado',
         text: 'Digite outro número',
@@ -203,22 +203,21 @@ export default function Agenda({ setValue, setTelefone, setnomeMensagem, setesta
       //terminar nsdifsifudsnfhodsdfsfh
       //ADICIONAR BOTAO PRA VOLTAR A LISTA COMPLETA
     }
-
   }
 
   return (
     <Box className="max-w-4xl mx-auto p-6">
-      {salvar &&(
-        <Paper elevation={2} sx={{ p: 4, mb: 4, borderRadius: 2 }}>
+      {salvar && (
+        <Paper elevation={2} sx={{ p: 1, mb: 1, borderRadius: 2, display: 'flex',  gap: 2, alignItems: 'center', justifyContent: 'center'}}>
           <Typography variant="h6" gutterBottom className="font-semibold text-gray-700">
             Pesquisar Contato
           </Typography>
-          <Box className="flex gap-4 mb-4">
+          <Box className="flex gap-4 mb-4 "sx={{paddingTop: '1rem'}}>
             <TextField
               label="Numero"
               variant="outlined"
-              value={pesqNumero} 
-              onChange= {aplicarMascaraTelefonePesq}
+              value={pesqNumero}
+              onChange={aplicarMascaraTelefonePesq}
               placeholder="(00) 0 0000 0000"
               fullWidth
               InputProps={{
@@ -239,10 +238,23 @@ export default function Agenda({ setValue, setTelefone, setnomeMensagem, setesta
           >
             Pesquisar
           </Button>
+          <Button
+            variant="contained"
+            sx={{
+              borderRadius: 2,
+              backgroundColor: '#3b82f6',
+              '&:hover': {
+                backgroundColor: '#2563eb',
+              }
+            }}
+            onClick={() => listarContatos()}
+          >
+            Mostrar todos
+          </Button>
         </Paper>
       )}
       {salvar && (
-        <Paper elevation={2} sx={{ p: 4, mb: 4, borderRadius: 2 }}>
+        <Paper elevation={2} sx={{ p: 3, mb: 1, borderRadius: 2 }}>
           <Typography variant="h6" gutterBottom className="font-semibold text-gray-700">
             Salvar na Agenda
           </Typography>
@@ -260,8 +272,8 @@ export default function Agenda({ setValue, setTelefone, setnomeMensagem, setesta
             <TextField
               label="Numero"
               variant="outlined"
-              value={numero} 
-              onChange= {aplicarMascaraTelefone}
+              value={numero}
+              onChange={aplicarMascaraTelefone}
               placeholder="(00) 0 0000 0000"
               fullWidth
               InputProps={{
@@ -304,8 +316,8 @@ export default function Agenda({ setValue, setTelefone, setnomeMensagem, setesta
             <TextField
               label="Numero"
               variant="outlined"
-              value = {numero}
-              onChange= {aplicarMascaraTelefone}
+              value={numero}
+              onChange={aplicarMascaraTelefone}
               placeholder="(00) 0 0000 0000"
               fullWidth
               InputProps={{
