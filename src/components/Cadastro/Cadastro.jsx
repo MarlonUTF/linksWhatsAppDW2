@@ -39,7 +39,7 @@ export default function Cadastro() {
         }
 
         // Checa email duplicado na tabela  (paralela ao auth)
-        const { data: { user }, error: userError } = await supabase.auth.getUserByEmail(email);
+        const { data: { user }, error: userError } = await supabase.auth.getUser(email);
         if (user) {
             Swal.fire("Erro", "Este email já existe. Tente fazer login.", "error");
             return;
