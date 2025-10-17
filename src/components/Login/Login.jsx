@@ -26,6 +26,7 @@ export default function Login() {
             return;
         }
 
+
         const { data, error } = await supabase.auth.signInWithPassword({
             email,
             password: senha
@@ -37,55 +38,60 @@ export default function Login() {
             Swal.fire("Sucesso", "Login realizado!", "success");
             navigate("/login");
         }
+
+        if (error.message.includes("invalid_credentials") && emailRegistradoViaGoogle) {
+            Swal.fire("Erro", "Este email foi cadastrado via Google. Use login com Google.", "error");
+        }
+
     };
 
     // Login com Google
     const handleSignInWithGoogle = async () => {
-    try {
-        const { data, error } = await supabase.auth.signInWithOAuth({
-            provider: "google",
-        });
+        try {
+            const { data, error } = await supabase.auth.signInWithOAuth({
+                provider: "google",
+            });
 
-        if (error) {
-            // Caso o email já exista no Supabase (senha cadastrada)
-            if (
-                error.message.includes("already registered") ||
-                error.message.includes("user already exists")
-            ) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Email já cadastrado",
-                    text: "Este email já está registrado com outro método de login. Tente entrar com sua senha ou redefina sua senha.",
-                });
+            if (error) {
+                // Caso o email já exista no Supabase (senha cadastrada)
+                if (
+                    error.message.includes("already registered") ||
+                    error.message.includes("user already exists")
+                ) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Email já cadastrado",
+                        text: "Este email já está registrado com outro método de login. Tente entrar com sua senha ou redefina sua senha.",
+                    });
+                } else {
+                    // Outros erros do Supabase
+                    Swal.fire({
+                        icon: "error",
+                        title: "Erro ao entrar com Google",
+                        text: error.message,
+                    });
+                }
             } else {
-                // Outros erros do Supabase
+                // Sucesso: o Supabase redireciona automaticamente
                 Swal.fire({
-                    icon: "error",
-                    title: "Erro ao entrar com Google",
-                    text: error.message,
+                    icon: "success",
+                    title: "Acessando com Google",
+                    text: "Você será redirecionado...",
+                    timer: 1500,
+                    showConfirmButton: false,
                 });
             }
-        } else {
-            // Sucesso: o Supabase redireciona automaticamente
+        } catch (err) {
             Swal.fire({
-                icon: "success",
-                title: "Acessando com Google",
-                text: "Você será redirecionado...",
-                timer: 1500,
-                showConfirmButton: false,
+                icon: "error",
+                title: "Erro inesperado",
+                text: err.message,
             });
         }
-    } catch (err) {
-        Swal.fire({
-            icon: "error",
-            title: "Erro inesperado",
-            text: err.message,
-        });
-    }
-};
+    };
 
 
-    
+
 
 
     return (
@@ -125,7 +131,7 @@ export default function Login() {
                 >
                     Acessar
                 </Button>
-    
+
                 <Typography variant="h6" gutterBottom className="font-semibold text-gray-700 justify-center align-center flex">
                     ou
                 </Typography>
