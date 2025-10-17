@@ -85,7 +85,6 @@ export default function Agenda({ setValue, setTelefone, setnomeMensagem, setesta
     console.log('Contatos listados com sucesso:', data)
     setContatos(data)
   }
-  
   async function fetchUser() {
     const { data: { user }, error } = await supabase.auth.getUser();
     if (error) {
@@ -98,11 +97,9 @@ export default function Agenda({ setValue, setTelefone, setnomeMensagem, setesta
   useEffect(() => {
     fetchUser();
   }, []);
- useEffect(() => {
-  if (usuarioEmail === null) {
-    navigate("/login");
-  }
-}, [usuarioEmail]);
+  useEffect(() => {
+    if (usuarioEmail) listarContatos();
+  }, [usuarioEmail]);
 
   function contatoExiste(nome, numero) {
     return contatos.some(
