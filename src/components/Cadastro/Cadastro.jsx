@@ -47,21 +47,27 @@ export default function Cadastro() {
 
 
         // Cria usuário no Supabase Auth
-        const { data, error } = await supabase.auth.signUp({ email, password: senha });
+        const { data, error } = await supabase.auth.signUp({
+            email,
+            password: senha
+        });
 
         if (error) {
-            Swal.fire("Erro", error.message, "error");
+            if (error.message.includes("already registered")) {
+                Swal.fire("Erro", "Este email já existe. Tente fazer login.", "error");
+            } else {
+                Swal.fire("Erro", error.message, "error");
+            }
         } else {
             Swal.fire({
                 icon: "success",
                 title: "Cadastro realizado!",
-                text: "",
                 timer: 1500,
                 showConfirmButton: false,
             });
-
             navigate("/login");
         }
+
     };
 
     return (
