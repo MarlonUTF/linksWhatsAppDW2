@@ -6,8 +6,16 @@ export default function FormLink({ setLinkGerado, telefone, nomeMensagem, estado
   const [mensagem, setMensagem] = useState("");
 
   useEffect(() => {
-    setTelefoneInput(telefone || "");
-  }, [telefone]);
+  // Atualiza o input com o telefone, ou vazio se não houver
+  setTelefoneInput(telefone || "");
+
+  // Se value for 0, limpa mensagem e telefone
+  if (value === 0) {
+    setMensagem("");
+    setTelefoneInput("");
+  }
+}, [telefone, value]); // Executa sempre que telefone ou value mudarem
+
 
   const aplicarMascaraTelefone = (evento) => {
     let valor = evento.target.value.replace(/\D/g, "");

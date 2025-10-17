@@ -95,8 +95,14 @@ export default function Agenda({ setValue, setTelefone, setnomeMensagem, setesta
   }
 
   useEffect(() => {
-    fetchUser();
-  }, []);
+  async function loadUser() {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) setUsuarioEmail(user.email);
+  }
+  loadUser();
+  fetchUser();
+}, []);
+
   useEffect(() => {
     if (usuarioEmail) listarContatos();
   }, [usuarioEmail]);
