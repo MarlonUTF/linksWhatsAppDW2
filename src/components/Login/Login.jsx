@@ -32,6 +32,10 @@ export default function Login() {
             password: senha
         });
 
+        if (error.message.includes("invalid_credentials") && emailRegistradoViaGoogle) {
+            Swal.fire("Erro", "Este email foi cadastrado via Google. Use login com Google.", "error");
+        }
+
         if (error) {
             Swal.fire("Erro", error.message, "error");
         } else {
@@ -39,9 +43,7 @@ export default function Login() {
             navigate("/login");
         }
 
-        if (error.message.includes("invalid_credentials") && emailRegistradoViaGoogle) {
-            Swal.fire("Erro", "Este email foi cadastrado via Google. Use login com Google.", "error");
-        }
+
 
     };
 
