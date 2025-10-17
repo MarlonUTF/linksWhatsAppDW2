@@ -85,21 +85,27 @@ export default function Agenda({ setValue, setTelefone, setnomeMensagem, setesta
     console.log('Contatos listados com sucesso:', data)
     setContatos(data)
   }
+
   async function fetchUser() {
-    const { data: { user }, error } = await supabase.auth.getUser();
-    if (error) {
-      console.error(error);
-      return null;
-    }
-    return user; // Retorna o usuário logado
+  const { data: { session }, error } = await supabase.auth.getSession();
+  if (session?.user) {
+    setUsuarioEmail(session.user.email);
+  } else {
+    console.log("Nenhuma sessão ativa");
   }
+}
+
 
   useEffect(() => {
-    fetchUser();
-  }, []);
+  fetchUser();
+}, []);
+
   useEffect(() => {
-    if (usuarioEmail) listarContatos();
-  }, [usuarioEmail]);
+  if (usuarioEmail === null) {
+    navigate("/login");
+  }
+}, [usuarioEmail]);
+
 
   function contatoExiste(nome, numero) {
     return contatos.some(
