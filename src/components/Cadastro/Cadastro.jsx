@@ -2,11 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Paper, Typography, TextField, Button, Box } from "@mui/material";
 import Swal from "sweetalert2";
-import { createClient } from '@supabase/supabase-js';
-const supabase = createClient(
-    import.meta.env.VITE_SUPABASE_URL,
-    import.meta.env.VITE_SUPABASE_ANON_KEY
-)
+import { supabase } from "../../supabaseCliente";
 import { FcGoogle } from "react-icons/fc";
 
 export default function Cadastro() {
@@ -20,7 +16,7 @@ export default function Cadastro() {
             return "A senha deve ter entre 4 e 6 caracteres.";
         if (/^(\d)\1+$/.test(senha) || /^([a-zA-Z])\1+$/.test(senha))
             return "Senha muito fraca. Evite caracteres repetidos.";
-        const sequencias = ["1234","2345","3456","4567","5678","6789","9876","8765","7654","6543","5432","4321"];
+        const sequencias = ["1234", "2345", "3456", "4567", "5678", "6789", "9876", "8765", "7654", "6543", "5432", "4321"];
         if (sequencias.includes(senha)) return "Senha muito fraca. Evite sequências numéricas.";
         return null;
     };
@@ -42,17 +38,13 @@ export default function Cadastro() {
             return;
         }
 
-        // Checa email duplicado na tabela users (paralela ao auth)
-        const { data: existingUser } = await supabase
-            .from("users")
-            .select("email")
-            .eq("email", email)
-            .single();
-
-        if (existingUser) {
-            Swal.fire("Erro", "Este email já existe. Tente fazer login ou redefina sua senha.", "error");
+        // Checa email duplicado na tabela  (paralela ao auth)
+        const { data: { user }, error: userError } = await supabase.auth.getUserByEmail(email);
+        if (user) {
+            Swal.fire("Erro", "Este email já existe. Tente fazer login.", "error");
             return;
         }
+
 
         // Cria usuário no Supabase Auth
         const { data, error } = await supabase.auth.signUp({ email, password: senha });
@@ -60,18 +52,15 @@ export default function Cadastro() {
         if (error) {
             Swal.fire("Erro", error.message, "error");
         } else {
-            // Inserir registro na tabela users (opcional)
-            await supabase.from("users").insert([{ email }]);
-
             Swal.fire({
                 icon: "success",
                 title: "Cadastro realizado!",
-                text: "Você será redirecionado para a página inicial",
+                text: "",
                 timer: 1500,
                 showConfirmButton: false,
             });
 
-            navigate("/home");
+            navigate("/login");
         }
     };
 
@@ -131,7 +120,7 @@ export default function Cadastro() {
                 >
                     Já possui conta? Faça login
                 </Button>
-               
+
             </Paper>
         </div>
     );

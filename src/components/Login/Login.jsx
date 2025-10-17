@@ -1,10 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { createClient } from '@supabase/supabase-js';
-const supabase = createClient(
-    import.meta.env.VITE_SUPABASE_URL,
-    import.meta.env.VITE_SUPABASE_ANON_KEY
-)
+import { supabase } from '../../supabaseCliente';
 import { Paper, Typography, TextField, Button, Box } from "@mui/material";
 import { FcGoogle } from "react-icons/fc";
 import Swal from "sweetalert2";
@@ -39,7 +35,7 @@ export default function Login() {
             Swal.fire("Erro", error.message, "error");
         } else {
             Swal.fire("Sucesso", "Login realizado!", "success");
-            navigate("/home");
+            navigate("/login");
         }
     };
 

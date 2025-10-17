@@ -14,16 +14,8 @@ import {
 } from "@mui/material";
 import { Edit, Delete, Message } from "@mui/icons-material";
 import { useEffect, useState } from "react";
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from "../../../supabaseCliente";
 import Swal from 'sweetalert2';
-
-
-
-
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
-)
 
 export default function Agenda({ setValue, setTelefone, setnomeMensagem, setestadoMensagem }) {
   const [contatos, setContatos] = useState([])
@@ -90,11 +82,16 @@ export default function Agenda({ setValue, setTelefone, setnomeMensagem, setesta
       return
     }
 
+    console.log('Contatos listados com sucesso:', data)
     setContatos(data)
   }
   async function fetchUser() {
     const { data: { user }, error } = await supabase.auth.getUser();
-    if (user) setUsuarioEmail(user.email);
+    if (error) {
+      console.error(error);
+      return null;
+    }
+    return user; // Retorna o usuário logado
   }
 
   useEffect(() => {

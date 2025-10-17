@@ -3,11 +3,7 @@ import { Box, Tabs, Tab, Paper, Button } from "@mui/material";
 import { BsChatLeftTextFill, BsJournalText } from "react-icons/bs";
 import Gerador from "./GeradorLink/Gerador";
 import Agenda from "../Agenda/Agenda";
-import { createClient } from '@supabase/supabase-js';
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
-)
+import { supabase } from "../../../supabaseCliente";
 
 
 function TabPanel({ children, value, index }) {
